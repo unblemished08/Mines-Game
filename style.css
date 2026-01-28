@@ -1,0 +1,260 @@
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #1f2933, #0f172a);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 16px;
+}
+
+/* ---------- Layout ---------- */
+
+.container {
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+h1 {
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  margin-bottom: 12px;
+}
+
+/* ---------- Controls ---------- */
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.controls input {
+  flex: 1 1 120px;
+  max-width: 160px;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+}
+
+.controls button {
+  flex: 1 1 100px;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+}
+
+.controls button:active {
+  transform: scale(0.97);
+}
+
+/* ---------- Info ---------- */
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+}
+
+.status {
+  min-height: 22px;
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+/* ---------- Grid ---------- */
+
+#grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: clamp(6px, 2vw, 10px);
+  width: 100%;
+}
+
+/* ---------- Tiles ---------- */
+
+.tile {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  font-size: clamp(1.2rem, 5vw, 1.6rem);
+  border-radius: clamp(10px, 3vw, 14px);
+  border: none;
+  cursor: pointer;
+  background: #1e293b;
+  color: white;
+  transition: transform 0.15s ease, background 0.25s ease;
+}
+
+/* Touch feedback */
+.tile:active {
+  transform: scale(0.92);
+}
+
+.tile.disabled {
+  pointer-events: none;
+}
+
+/* ---------- Gem ---------- */
+
+.tile.gem {
+  background: radial-gradient(circle at top, #22c55e, #15803d);
+  animation: gemPop 0.35s ease-out;
+}
+
+@keyframes gemPop {
+  0% {
+    transform: scale(0.2) rotate(-30deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.15) rotate(10deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}
+
+/* ---------- Mine ---------- */
+
+.tile.mine {
+  background: radial-gradient(circle at top, #ef4444, #7f1d1d);
+  animation: mineBlast 0.4s ease-out;
+}
+
+@keyframes mineBlast {
+  0% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ---------- Result Overlay ---------- */
+
+.result {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+}
+
+.result h2 {
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+}
+
+.result p {
+  font-size: 1rem;
+}
+
+.result button {
+  margin-top: 10px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+}
+
+.hidden {
+  display: none;
+}
+
+#soundBtn {
+  background: #374151;
+}
+
+#soundBtn:active {
+  transform: scale(0.95);
+}
+
+/* ---------- Result Animation ---------- */
+
+.result {
+  opacity: 0;
+  transform: scale(0.9);
+  animation: resultFadeIn 0.4s ease-out forwards;
+}
+
+@keyframes resultFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Button pop */
+.result button {
+  animation: buttonPop 0.4s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+@keyframes buttonPop {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ---------- Confetti ---------- */
+
+.confetti {
+  position: fixed;
+  width: 8px;
+  height: 12px;
+  background-color: red;
+  top: -20px;
+  animation: confettiFall 2.5s linear forwards;
+  z-index: 9999;
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0;
+  }
+}

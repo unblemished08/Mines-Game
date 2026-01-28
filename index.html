@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Mines Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+    <h1>💣 Mines Game</h1>
+
+    <div class="controls">
+      <input type="number" id="mineCount" placeholder="Mines (1–24)" />
+      <button id="startBtn" onclick="startGame()">Start</button>
+      <button id="quitBtn" onclick="quitGame()" hidden>Quit</button>
+      <button id="soundBtn" onclick="toggleSound()">🔊</button>
+    </div>
+
+    <div class="info">
+      <span id="score">Score: 0</span>
+      <span id="timer">Time: 0s</span>
+    </div>
+
+    <div id="status" class="status"></div>
+
+    <div id="grid"></div>
+
+    <!-- Result Overlay -->
+    <div id="resultBox" class="result hidden">
+      <h2 id="resultTitle"></h2>
+      <p id="finalScore"></p>
+      <p id="finalTime"></p>
+      <button onclick="restartGame()">Restart</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
