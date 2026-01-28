@@ -80,6 +80,13 @@ function restartGame() {
 
 function animateScore(finalScore) {
   const scoreEl = document.getElementById("finalScore");
+
+  // ✅ Handle zero score immediately
+  if (finalScore === 0) {
+    scoreEl.innerText = "Final Score: 0";
+    return;
+  }
+
   let current = 0;
 
   const interval = setInterval(() => {
@@ -91,6 +98,7 @@ function animateScore(finalScore) {
     }
   }, 30);
 }
+
 
 /* ---------- End Game ---------- */
 
@@ -109,7 +117,8 @@ function endGame(title, type) {
   const T = gridSize * gridSize;
   const maxSafe = T - 1;                 
   const totalSafe = T - mines.size;
-  const openedSafe = revealed.size;
+  const openedSafe =
+  type === "lose" ? revealed.size - 1 : revealed.size;
 
   if (type === "lose") {
   score = 0;
