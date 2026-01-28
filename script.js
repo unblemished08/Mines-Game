@@ -111,7 +111,11 @@ function endGame(title, type) {
   const totalSafe = T - mines.size;
   const openedSafe = revealed.size;
 
+  if (type === "lose") {
+  score = 0;
+} else {
   score = Math.round((openedSafe * maxSafe) / totalSafe);
+}
 
   const titleEl = document.getElementById("resultTitle");
   if (type === "win") titleEl.style.color = "#22c55e";
