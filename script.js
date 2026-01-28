@@ -1,7 +1,7 @@
 const gridSize = 5;
 let mines = new Set();
 let revealed = new Set();
-let score = 0;
+let score = 0; // final normalized score
 let gameOn = false;
 let timer = 0;
 let timerInterval = null;
@@ -56,7 +56,7 @@ function startGame() {
   gameOn = true;
 
   document.getElementById("grid").innerHTML = "";
-  document.getElementById("score").innerText = "Score: 0";
+  document.getElementById("score").innerText = "Opened: 0";
   document.getElementById("timer").innerText = "Time: 0s";
 
   generateMines(mineCount);
@@ -76,6 +76,8 @@ function restartGame() {
   document.getElementById("quitBtn").hidden = true;
 }
 
+/* ---------- Score Animation ---------- */
+
 function animateScore(finalScore) {
   const scoreEl = document.getElementById("finalScore");
   let current = 0;
@@ -90,7 +92,6 @@ function animateScore(finalScore) {
   }, 30);
 }
 
-
 /* ---------- End Game ---------- */
 
 function endGame(title, type) {
@@ -100,13 +101,19 @@ function endGame(title, type) {
 
   if (type === "lose") playSound("lose");
   if (type === "win") {
-  playSound("win");
-  launchConfetti();
-}
+    playSound("win");
+    launchConfetti();
+  }
 
+  // ----- FAIR SCORING -----
+  const T = gridSize * gridSize;
+  const maxSafe = T - 1;                 
+  const totalSafe = T - mines.size;
+  const openedSafe = revealed.size;
+
+  score = Math.round((openedSafe * maxSafe) / totalSafe);
 
   const titleEl = document.getElementById("resultTitle");
-
   if (type === "win") titleEl.style.color = "#22c55e";
   else if (type === "lose") titleEl.style.color = "#ef4444";
   else titleEl.style.color = "#e5e7eb";
@@ -114,23 +121,22 @@ function endGame(title, type) {
   titleEl.innerText = title;
 
   document.getElementById("finalScore").innerText = "Final Score: 0";
-animateScore(score);
+  animateScore(score);
 
   document.getElementById("finalTime").innerText =
     "Time Taken: " + timer + "s";
 
   const resultBox = document.getElementById("resultBox");
 
-  // 🔁 Reset animation so it plays every time
+  // Reset animation
   resultBox.classList.add("hidden");
   resultBox.style.animation = "none";
-  resultBox.offsetHeight; // force reflow
+  resultBox.offsetHeight;
   resultBox.style.animation = "";
 
   resultBox.classList.remove("hidden");
   document.getElementById("quitBtn").hidden = true;
 }
-
 
 /* ---------- Grid Logic ---------- */
 
@@ -168,8 +174,6 @@ function handleClick(index, btn) {
     btn.classList.add("mine");
     playSound("mine");
 
-    score = 0;
-    document.getElementById("score").innerText = "Score: 0";
     setStatus("💥 You hit a mine!");
     endGame("💥 You Lost!", "lose");
   } else {
@@ -177,8 +181,9 @@ function handleClick(index, btn) {
     btn.classList.add("gem");
     playSound("gem");
 
-    score++;
-    document.getElementById("score").innerText = "Score: " + score;
+    document.getElementById("score").innerText =
+      "Opened: " + revealed.size;
+
     setStatus("Safe 💎 Keep going!");
 
     if (revealed.size === gridSize * gridSize - mines.size) {
@@ -217,6 +222,8 @@ function stopTimer() {
   }
 }
 
+/* ---------- Confetti ---------- */
+
 function launchConfetti() {
   const colors = ["#22c55e", "#3b82f6", "#facc15", "#ef4444"];
 
@@ -230,7 +237,6 @@ function launchConfetti() {
       2 + Math.random() * 1.5 + "s";
 
     document.body.appendChild(confetti);
-
     setTimeout(() => confetti.remove(), 3000);
   }
 }
