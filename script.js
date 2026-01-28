@@ -149,10 +149,10 @@ function generateMines(count) {
     mines.add(Math.floor(Math.random() * gridSize * gridSize));
   }
 
-  console.log(
-    "Mines at:",
-    Array.from(mines).sort((a, b) => a - b)
-  );
+  // console.log(
+  //   "Mines at:",
+  //   Array.from(mines).sort((a, b) => a - b)
+  // );
 }
 
 function createGrid() {
